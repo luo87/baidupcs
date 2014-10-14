@@ -2540,13 +2540,13 @@ PCS_API PcsFileInfo *pcs_upload_buffer(Pcs handle, const char *path, PcsBool ove
 	if (pcs->secure_enable
 		&& (pcs->secure_method == PCS_SECURE_AES_CBC_128 || pcs->secure_method == PCS_SECURE_AES_CBC_192 || pcs->secure_method == PCS_SECURE_AES_CBC_256)) {
 		struct PcsAesState *aes = NULL;
-		MD5_CTX md5;
-		unsigned char md5_value[PCS_MD5_SIZE];
+		// MD5_CTX md5;
+		// unsigned char md5_value[PCS_MD5_SIZE];
 		int polish = 0;
 		char tmp_buf[AES_BLOCK_SIZE] = { 0 };
-		MD5_Init(&md5);
-		MD5_Update(&md5, buffer, buffer_size);
-		MD5_Final(md5_value, &md5);
+		// MD5_Init(&md5);
+		// MD5_Update(&md5, buffer, buffer_size);
+		// MD5_Final(md5_value, &md5);
 		// set the encryption length
 		sz = 0;
 		if (buffer_size % AES_BLOCK_SIZE == 0) {
@@ -2559,16 +2559,16 @@ PCS_API PcsFileInfo *pcs_upload_buffer(Pcs handle, const char *path, PcsBool ove
 			polish = sz - buffer_size;
 			memcpy(tmp_buf, &buffer[tmp_sz], buffer_size - tmp_sz);
 		}
-		buf = (char *)pcs_malloc(sz + AES_BLOCK_SIZE + PCS_MD5_SIZE);
+		buf = (char *)pcs_malloc(sz + AES_BLOCK_SIZE);
 		if (!buf) {
 			pcs_set_errmsg(handle, "Can't alloc buffer for post data.");
 			pcs_free(filename);
 			return NULL;
 		}
 		memset(buf, 0, sz + AES_BLOCK_SIZE);
-		int2Buffer(PCS_AES_MAGIC, buf);
-		int2Buffer(pcs->secure_method, &buf[4]);
-		int2Buffer(polish, &buf[8]);
+		// int2Buffer(PCS_AES_MAGIC, buf);
+		// int2Buffer(pcs->secure_method, &buf[4]);
+		// int2Buffer(polish, &buf[8]);
 		aes = createPcsAesState(handle, pcs->secure_method, AES_ENCRYPT, (unsigned char)polish);
 		if (!aes) {
 			pcs_set_errmsg(handle, "Can't create AES object.");
@@ -2588,9 +2588,9 @@ PCS_API PcsFileInfo *pcs_upload_buffer(Pcs handle, const char *path, PcsBool ove
 		sz += AES_BLOCK_SIZE;
 		destroyPcsAesState(aes);
 
-		/*复制md5值到最后*/
-		memcpy(&buf[sz], md5_value, PCS_MD5_SIZE);
-		sz += PCS_MD5_SIZE;
+		// /*复制md5值到最后*/
+		// memcpy(&buf[sz], md5_value, PCS_MD5_SIZE);
+		// sz += PCS_MD5_SIZE;
 	}
 	if (pcs_http_form_addbuffer(pcs->http, &form, "file", buf, (long)sz, filename) != PcsTrue) {
 		pcs_set_errmsg(handle, "Can't build the post data.");
