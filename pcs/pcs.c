@@ -2549,23 +2549,23 @@ PCS_API PcsFileInfo *pcs_upload_buffer(Pcs handle, const char *path, PcsBool ove
 		// MD5_Final(md5_value, &md5);
 		// set the encryption length
 		sz = 0;
-		if (buffer_size % AES_BLOCK_SIZE == 0) {
-			sz = buffer_size;
-			polish = 0;
-		}
-		else {
-			int tmp_sz = (buffer_size / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
-			sz = tmp_sz + AES_BLOCK_SIZE;
-			polish = sz - buffer_size;
-			// memcpy(tmp_buf, &buffer[tmp_sz], buffer_size - tmp_sz);
-		}
-		buf = (char *)pcs_malloc(sz + AES_BLOCK_SIZE);
-		if (!buf) {
-			pcs_set_errmsg(handle, "Can't alloc buffer for post data.");
-			pcs_free(filename);
-			return NULL;
-		}
-		memset(buf, 0, sz + AES_BLOCK_SIZE);
+		// if (buffer_size % AES_BLOCK_SIZE == 0) {
+		// 	sz = buffer_size;
+		// 	polish = 0;
+		// }
+		// else {
+		// 	int tmp_sz = (buffer_size / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
+		// 	sz = tmp_sz + AES_BLOCK_SIZE;
+		// 	polish = sz - buffer_size;
+		// 	memcpy(tmp_buf, &buffer[tmp_sz], buffer_size - tmp_sz);
+		// }
+		// buf = (char *)pcs_malloc(sz + AES_BLOCK_SIZE);
+		// if (!buf) {
+		// 	pcs_set_errmsg(handle, "Can't alloc buffer for post data.");
+		// 	pcs_free(filename);
+		// 	return NULL;
+		// }
+		// memset(buf, 0, sz + AES_BLOCK_SIZE);
 		// int2Buffer(PCS_AES_MAGIC, buf);
 		// int2Buffer(pcs->secure_method, &buf[4]);
 		// int2Buffer(polish, &buf[8]);
