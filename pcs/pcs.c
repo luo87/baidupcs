@@ -2557,7 +2557,7 @@ PCS_API PcsFileInfo *pcs_upload_buffer(Pcs handle, const char *path, PcsBool ove
 			int tmp_sz = (buffer_size / AES_BLOCK_SIZE) * AES_BLOCK_SIZE;
 			sz = tmp_sz + AES_BLOCK_SIZE;
 			polish = sz - buffer_size;
-			memcpy(tmp_buf, &buffer[tmp_sz], buffer_size - tmp_sz);
+			// memcpy(tmp_buf, &buffer[tmp_sz], buffer_size - tmp_sz);
 		}
 		buf = (char *)pcs_malloc(sz + AES_BLOCK_SIZE);
 		if (!buf) {
